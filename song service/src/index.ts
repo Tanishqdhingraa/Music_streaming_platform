@@ -1,23 +1,23 @@
 import express from "express";
 import doetnv from "dotenv";
 import songRoutes from "./route.js";
-// import redis from "redis";
+import redis from "redis";
 import cors from "cors";
 
 doetnv.config();
 
-// export const redisClient = redis.createClient({
-//   password: process.env.Redis_Password,
-//   socket: {
-//     host: "redis-18607.crce179.ap-south-1-1.ec2.redns.redis-cloud.com",
-//     port: 18607,
-//   },
-// });
+export const redisClient = redis.createClient({
+  password: process.env.Redis_Password,
+  socket: {
+    host: "redis-17322.crce206.ap-south-1-1.ec2.cloud.redislabs.com",
+    port: 17322,
+  },
+});
 
-// redisClient
-//   .connect()
-//   .then(() => console.log("connected to redis"))
-//   .catch(console.error);
+redisClient
+  .connect()
+  .then(() => console.log("😎  connected to Redis"))
+  .catch(console.error);
 
 const app = express();
 
@@ -33,5 +33,5 @@ app.get("/",(req ,res)=>{
 })
 
 app.listen(port, () => {
-  console.log(`✅  server is running on http://localhost:${port}`);
+  console.log(`✅  Server is Running on http://localhost:${port}`);
 });

@@ -1,32 +1,31 @@
 import { sql } from "./config/db.js";
 import TryCatch from "./TryCatch.js";
-// import { redisClient } from "./index.js";
+import { redisClient } from "./index.js";
 
 export const getAllAlbum = TryCatch(async (req, res) => {
   let albums;
-  // const CACHE_EXPIRY = 1800;
+  const CACHE_EXPIRY = 1800;
 
-  // if (redisClient.isReady) {
-  //   albums = await redisClient.get("albums");
-  // }
+  if (redisClient.isReady) {
+    albums = await redisClient.get("albums");
+  }
 
-  // if (albums) {
-  //   console.log("Cache hit");
-  //   res.json(JSON.parse(albums));
-  //   return;
-  // } else {
-  //   console.log("Cache miss");
+  if (albums) {
+    console.log("Cache hit");
+    res.json(JSON.parse(albums));
+    return;
+  } else {
+    console.log("Cache miss");
     albums = await sql`SELECT * FROM albums`;
 
-    // if (redisClient.isReady) {
-    //   await redisClient.set("albums", JSON.stringify(albums), {
-    //     EX: CACHE_EXPIRY,
-    //   });
-    // }
-
+    if (redisClient.isReady) {
+      await redisClient.set("albums", JSON.stringify(albums), {
+        EX: CACHE_EXPIRY,
+      });
+    }
     res.json(albums);
     return;
-  // }
+  }
 });
 
 export const getAllsongs = TryCatch(async (req, res) => {
