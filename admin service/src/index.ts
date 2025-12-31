@@ -5,21 +5,21 @@ import express from "express";
 import { sql } from "./config/db.js";
 import adminRoutes from "./route.js";
 import cloudinary from "cloudinary";
-// import redis from "redis";
+import redis from "redis";
 import cors from "cors";
 
-// export const redisClient = redis.createClient({
-//   password: process.env.Redis_Password,
-//   socket: {
-//     host: "redis-18607.crce179.ap-south-1-1.ec2.redns.redis-cloud.com",
-//     port: 18607,
-//   },
-// });
+export const redisClient = redis.createClient({
+  password: process.env.Redis_Password,
+  socket: {
+    host: "redis-17322.crce206.ap-south-1-1.ec2.cloud.redislabs.com",
+    port: 17322,
+  },
+});
 
-// redisClient
-//   .connect()
-//   .then(() => console.log("connected to redis"))
-//   .catch(console.error);
+redisClient
+  .connect()
+  .then(() => console.log("😊  Connected to Redis"))
+  .catch(console.error);
 
 cloudinary.v2.config({
   cloud_name: process.env.Cloud_Name,
@@ -57,7 +57,7 @@ async function initDB() {
         )
         `;
 
-    console.log("Database initialized successfully");
+    console.log("😍  Database initialized successfully");
   } catch (error) {
     console.log("Error initDb", error);
   }
@@ -69,6 +69,6 @@ const port = process.env.PORT;
 
 initDB().then(() => {
   app.listen(port, () => {
-    console.log(`✅   Admin server is running on port ${port}`);
+    console.log(`✅  Admin server is running on port ${port}`);
   });
 });
