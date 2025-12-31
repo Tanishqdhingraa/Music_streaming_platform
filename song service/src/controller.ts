@@ -30,29 +30,29 @@ export const getAllAlbum = TryCatch(async (req, res) => {
 
 export const getAllsongs = TryCatch(async (req, res) => {
   let songs;
-  // const CACHE_EXPIRY = 1800;
+  const CACHE_EXPIRY = 1800;
 
-  // if (redisClient.isReady) {
-  //   songs = await redisClient.get("songs");
-  // }
+  if (redisClient.isReady) {
+    songs = await redisClient.get("songs");
+  }
 
-  // if (songs) {
-  //   console.log("Cache hit");
-  //   res.json(JSON.parse(songs));
-  //   return;
-  // } else {
-  //   console.log("Cache miss");
+  if (songs) {
+    console.log("Cache hit");
+    res.json(JSON.parse(songs));
+    return;
+  } else {
+    console.log("Cache miss");
     songs = await sql`SELECT * FROM songs`;
 
-    // if (redisClient.isReady) {
-    //   await redisClient.set("songs", JSON.stringify(songs), {
-    //     EX: CACHE_EXPIRY,
-    //   });
-    // }
+    if (redisClient.isReady) {
+      await redisClient.set("songs", JSON.stringify(songs), {
+        EX: CACHE_EXPIRY,
+      });
+    }
 
     res.json(songs);
     return;
-  // }
+  }
 });
 
 export const getAllSongsOfAlbum = TryCatch(async (req, res) => {
@@ -61,14 +61,14 @@ export const getAllSongsOfAlbum = TryCatch(async (req, res) => {
 
   let album, songs;
 
-  // if (redisClient.isReady) {
-  //   const cacheData = await redisClient.get(`album_songs_${id}`);
-  //   if (cacheData) {
-  //     console.log("cache hit");
-  //     res.json(JSON.parse(cacheData));
-  //     return;
-  //   }
-  // }
+  if (redisClient.isReady) {
+    const cacheData = await redisClient.get(`album_songs_${id}`);
+    if (cacheData) {
+      console.log("cache hit");
+      res.json(JSON.parse(cacheData));
+      return;
+    }
+  }
 
   album = await sql`SELECT * FROM albums WHERE id = ${id}`;
 
@@ -83,13 +83,13 @@ export const getAllSongsOfAlbum = TryCatch(async (req, res) => {
 
   const response = { songs, album: album[0] };
 
-  // if (redisClient.isReady) {
-  //   await redisClient.set(`album_songs_${id}`, JSON.stringify(response), {
-  //     EX: CACHE_EXPIRY,
-  //   });
-  // }
+  if (redisClient.isReady) {
+    await redisClient.set(`album_songs_${id}`, JSON.stringify(response), {
+      EX: CACHE_EXPIRY,
+    });
+  }
 
-  // console.log("chche miss");
+  console.log("Cache miss");
 
   res.json(response);
 });

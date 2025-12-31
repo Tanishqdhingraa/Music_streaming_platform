@@ -16,7 +16,7 @@ export const redisClient = redis.createClient({
 
 redisClient
   .connect()
-  .then(() => console.log("😎  connected to Redis"))
+  .then(() => console.log("😎  Connected to Redis"))
   .catch(console.error);
 
 const app = express();
@@ -29,7 +29,7 @@ const port = process.env.PORT || 9000;
 
 app.get("/",(req ,res)=>{
   res.json("hello Song service is running ✅")
-  // res.json("No Worries ❤️")
+  
 })
 
 app.listen(port, () => {
