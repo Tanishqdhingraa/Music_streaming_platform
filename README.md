@@ -19,7 +19,7 @@ Each service runs independently and communicates via REST APIs.
 - **Backend:** Node.js, Express.js  
 - **Caching:** Redis  
 - **Architecture:** Microservices  
-- **Frontend:** Web & Mobile App  
+- **Frontend:** Web  App  
 - **Containerization:** Docker (per service)
 
 ## 🚀 Key Features
