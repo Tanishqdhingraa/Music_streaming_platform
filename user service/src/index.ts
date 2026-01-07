@@ -12,7 +12,7 @@ const connectDb = async () => {
       dbName: "Spotify",
     });
 
-    console.log("Mongo Db Connected");
+    console.log("✅  Mongo Db Connected");
   } catch (error) {
     console.log(error);
   }
