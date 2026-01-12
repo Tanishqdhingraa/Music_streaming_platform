@@ -27,12 +27,12 @@ app.use(express.json());
 app.use("/api/v1", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Server is working");
+  res.send("Identity service Server is working");
 });
 
 const port = process.env.PORT || 5000;
 
 app.listen(5000, () => {
-  console.log(`❤️  User Server is running on port ${port}`);
+  console.log(`❤️ User Server is running on port http://localhost:${port}`);
   connectDb();
 });

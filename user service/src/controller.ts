@@ -9,7 +9,7 @@ export const registerUser = TryCatch(async (req, res) => {
   let user = await User.findOne({ email });
 
   if (user) {
-    res.status(400).json({
+    res.status(403).json({
       message: "User Already exists",
     });
 
