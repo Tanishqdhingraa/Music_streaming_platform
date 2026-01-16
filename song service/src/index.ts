@@ -9,7 +9,7 @@ doetnv.config();
 export const redisClient = redis.createClient({
   password: process.env.Redis_Password,
   socket: {
-    host: "redis-17322.crce206.ap-south-1-1.ec2.cloud.redislabs.com",
+    host: process.env.HOST,
     port: 17322,
   },
 });
