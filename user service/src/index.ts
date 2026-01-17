@@ -33,6 +33,6 @@ app.get("/", (req, res) => {
 const port = process.env.PORT || 5000;
 
 app.listen(5000, () => {
-  console.log(`❤️ User Server is running on port http://localhost:${port}`);
+  console.log(`👋  User Server is running on port http://localhost:${port}`);
   connectDb();
 });
