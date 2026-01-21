@@ -35,38 +35,44 @@ export const registerUser = TryCatch(async (req, res) => {
   });
 });
 
+
 export const loginUser = TryCatch(async (req, res) => {
-  const{email , password} = req.body;
+  const { email, password } = req.body;
 
-  const user = await User.findOne({email});
+  const user = await User.findOne({ email });
 
-  if(!user || !password){
-    res.status(403).json({
-      message:`User not registered `
-    })
+  if (!user) {
+    res.status(404).json({
+      message: "User not exists",
+    });
     return;
   }
-  const isMatched = await bcrypt.compare(password, user.password);
-  if(!isMatched){
-    res.status(401).json({
-      message:`User password wrong`,
-      email, 
-    })
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    res.status(400).json({
+      message: "Invalid Password",
+    });
     return;
   }
-  const token = jwt.sign({email}, process.env.JWT_SEC as string,{expiresIn: "7d"})
+
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_SEC as string, {
+    expiresIn: "7d",
+  });
 
   res.status(200).json({
-    message:`User logged in`,
+    message: "Logged IN",
     user,
-    token
-  })
+    token,
+  });
 });
 
-export const myProfile = TryCatch(async (req: AuthenticatedRequest, res) => {
+
+export const myProfile = TryCatch(async(req:AuthenticatedRequest , res)=>{
   const user = req.user;
   res.json(user);
-});
+})
 
 export const addToPlaylist = TryCatch(
   async (req: AuthenticatedRequest, res) => {
@@ -101,6 +107,8 @@ export const addToPlaylist = TryCatch(
     res.json({
       message: "Added to PlayList",
     });
+
   }
 );
+
 
