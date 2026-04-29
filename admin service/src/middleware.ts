@@ -48,15 +48,11 @@ export const isAuth = async (
   }
 };
 
-// Multer setup for handling file uploads
+//multer setup
 import multer from "multer";
 
+const storage = multer.memoryStorage();
 
-// Store uploaded file in RAM (not on disk)
-const storage = multer.memoryStorage()
- 
-// Accept a single file with field name "file"
-const uploadfile = multer({storage}).single('file')
+const uploadFile = multer({ storage }).single("file");
 
-
-export default uploadfile
+export default uploadFile;
