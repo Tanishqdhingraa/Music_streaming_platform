@@ -21,11 +21,8 @@ export const addAlbum = TryCatch(async (req: AuthencatedRequest, res) => {
   }
 
   const { title, description } = req.body;
-  
+
   const file = req.file;
-
-  
-
   if (!file) {
     res.status(400).json({
       message: "No file to upload",
@@ -107,7 +104,7 @@ export const addSong = TryCatch(async (req: AuthencatedRequest, res) => {
     INSERT INTO songs (title, description, audio, album_id) VALUES
     (${title}, ${description}, ${cloud.secure_url}, ${album})
   `;
-
+  
   if (redisClient.isReady) {
     await redisClient.del("songs");
     console.log("Cache invalidated for songs");
@@ -226,7 +223,6 @@ export const deleteSong = TryCatch(async (req: AuthencatedRequest, res) => {
     });
     return;
   }
-
   await sql`DELETE FROM  songs WHERE id = ${id}`;
 
   if (redisClient.isReady) {

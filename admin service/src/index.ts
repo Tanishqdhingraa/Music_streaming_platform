@@ -11,7 +11,7 @@ import cors from "cors";
 export const redisClient = redis.createClient({
   password: process.env.Redis_Password,
   socket: {
-    host: "redis-17322.crce206.ap-south-1-1.ec2.cloud.redislabs.com",
+    host: "redis-17322.crce206.ap-south-1-1.ec2.cloud.redislabs.com:17322",
     port: 17322,
   },
 });
@@ -28,9 +28,7 @@ cloudinary.v2.config({
 });
 
 const app = express();
-
 app.use(cors());
-
 app.use(express.json());
 
 async function initDB() {
